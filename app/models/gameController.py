@@ -1,5 +1,5 @@
 import requests
-from flask import json, make_response, session, jsonify, request
+from flask import json, make_response, jsonify, request
 
 MAX_ATTEMPTS = 10
 
@@ -16,10 +16,10 @@ def generate_secret_combo():
             "format": "plain",
         }
         response = requests.get(url, params=params)
-        response.raise_for_status()
+        response.raise_for_status() # checks the response code and raises exception if error
 
-        secret_combo = response.text.strip().split("\n")
-        secret_combo = [int(num) for num in secret_combo]
+        secret_combo = response.text.strip().split("\n") # strips whitespace and splits by newline
+        secret_combo = [int(num) for num in secret_combo] # each element placed in list as integer
 
         return secret_combo
 
@@ -53,8 +53,9 @@ def submit_guess():
             return start_game()
 
         guess = request.json.get('guess')
+        guess_array = [int(num) for num in guess]
 
-        if not guess:  # or len(guess) != 4:
+        if not guess or len(guess_array) != 4:
             raise Exception("Guess must be exactly 4 numbers long")
 
         game_state = json.loads(game_state_cookie)
@@ -64,8 +65,6 @@ def submit_guess():
 
         if game_state["attempts"] >= MAX_ATTEMPTS:
             raise Exception("You've made 10 incorrect guess. Game over!")
-
-        guess_array = list(map(int, guess))
 
         feedback = give_feedback(guess_array, game_state["secret_combo"])
         history = get_history(game_state)
