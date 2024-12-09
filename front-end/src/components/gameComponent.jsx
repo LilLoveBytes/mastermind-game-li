@@ -11,8 +11,8 @@ const GameComponent = () => {
 		try {
 			const url = "http://localhost:3000/start";
 			await axios.post(url);
-			setGuess("");
 			setGameStarted(true);
+			setGuess("");
 			console.log("Game started", gameStarted);
 		} catch (error) {
 			console.log("Error starting game", error);
@@ -58,7 +58,6 @@ const GameComponent = () => {
 				</form>
 			)}
 			<p> {feedback} </p>
-		</div>
-	);
-};
+      </div>
+)};
 export default GameComponent;
