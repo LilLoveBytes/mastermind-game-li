@@ -3,7 +3,8 @@ import os
 
 
 def create_app(testConfig=None):
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder="../front-end/build",
+                template_folder="../front-end/build")
 
     app.config['DEBUG'] = os.getenv('FLASK_ENV') == 'development'
 
@@ -11,6 +12,13 @@ def create_app(testConfig=None):
 
     from app.gameRoutes import game_bp
     app.register_blueprint(game_bp)
+
+    @app.route('/', defaults={'path': ''})
+    @app.route('/<path:path>')
+    def serve_react(path):
+        if path and os.path.exists(app.static_folder + '/' + path):
+            return app.send_static_file(path)
+        return app.send_static_file('index.html')
 
     return app
 

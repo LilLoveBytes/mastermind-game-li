@@ -119,7 +119,7 @@ def give_feedback(guess_array, secret_combo):
         if exactMatches == 4:
             return "You've guessed the correct combination!"
         else:
-            return f"Your guess has {correctNumbers} correct numbers, with {exactMatches} in the correct position."
+            return f"Your guess {guess_array} has {correctNumbers} correct numbers, with {exactMatches} in the correct position."
 
     except Exception as e:
         return ({"error": str(e)})
