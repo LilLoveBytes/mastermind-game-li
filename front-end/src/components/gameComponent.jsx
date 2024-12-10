@@ -4,8 +4,10 @@ import axios from "axios";
 const GameComponent = () => {
 	const [guess, setGuess] = useState("");
 	const [feedback, setFeedback] = useState("");
-	const [history, setHistory] = useState("");
+	const [atemptHistory, setAttemptHistory] = useState("");
+	const [guessHistory, setGuessHistory] = useState([]);
 	const [gameStarted, setGameStarted] = useState(false);
+	const [historyVisible, setHistoryVisible] = useState(false);
 
 	const startGame = async () => {
 		try {
@@ -28,12 +30,17 @@ const GameComponent = () => {
 			console.log("guess", guess);
 			setFeedback(result.feedback);
 			console.log("feedback", result.feedback);
-			setHistory("history", result.history);
-			console.log("history", result.history);
+			setAttemptHistory(result.history.message);
+			console.log("attempthistory", result.history.message, "guess history:", result.history.guesses);
+			setGuessHistory(result.history.guesses);
 			setGuess("");
 		} catch (error) {
 			console.log("Error submitting guess", guess, "error:", error);
 		}
+	};
+
+	const toggleShowHistory = () => {
+		setHistoryVisible(!historyVisible);
 	};
 
 	return (
@@ -58,6 +65,22 @@ const GameComponent = () => {
 				</form>
 			)}
 			<p> {feedback} </p>
-      </div>
-)};
+			<p> {atemptHistory} </p>
+			{/* display on button click */}
+
+	{gameStarted && guessHistory.length >= 1 && (
+		<>
+			<button id="guess-history" onClick={toggleShowHistory}>
+				{historyVisible ? "Hide Guess History" : "Show Guess History"}
+			</button>
+			{historyVisible && (
+            <p>
+            {guessHistory.join(", ")}
+          </p>
+          )}
+		</>
+	)}
+		</div>
+	);
+};
 export default GameComponent;

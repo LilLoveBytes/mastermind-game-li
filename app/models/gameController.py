@@ -16,10 +16,12 @@ def generate_secret_combo():
             "format": "plain",
         }
         response = requests.get(url, params=params)
-        response.raise_for_status() # checks the response code and raises exception if error
+        response.raise_for_status()  # checks the response code and raises exception if error
 
-        secret_combo = response.text.strip().split("\n") # strips whitespace and splits by newline
-        secret_combo = [int(num) for num in secret_combo] # each element placed in list as integer
+        # strips whitespace and splits by newline
+        secret_combo = response.text.strip().split("\n")
+        # each element placed in list as integer
+        secret_combo = [int(num) for num in secret_combo]
 
         return secret_combo
 
@@ -35,6 +37,8 @@ def start_game():
             "attempts": 0,
             "guesses": []
         }
+
+        print("secret combo:", secret_combo)
 
         response = make_response(
             jsonify({"message": "New game started", "secret_combo": secret_combo}), 200)
@@ -62,11 +66,11 @@ def submit_guess():
         game_state["attempts"] += 1
         game_state["guesses"].append(guess)
 
-
         if game_state["attempts"] >= MAX_ATTEMPTS:
             raise Exception("You've made 10 incorrect guess. Game over!")
 
-        feedback = give_feedback(guess_array, game_state["secret_combo"])
+        feedback = give_feedback(
+            guess, guess_array, game_state["secret_combo"])
         history = get_history(game_state)
         response = make_response(jsonify(
             {"message": "Guess submitted", "history": history, "feedback": feedback}), 200)
@@ -92,7 +96,7 @@ def get_history(game_state):
         return jsonify({"error": str(e)}), 500
 
 
-def give_feedback(guess_array, secret_combo):
+def give_feedback(guess, guess_array, secret_combo):
     try:
         correctNumbers = 0
         exactMatches = 0
@@ -119,7 +123,7 @@ def give_feedback(guess_array, secret_combo):
         if exactMatches == 4:
             return "You've guessed the correct combination!"
         else:
-            return f"Your guess {guess_array} has {correctNumbers} correct numbers, with {exactMatches} in the correct position."
+            return f"Your guess [{guess}] has {correctNumbers} correct numbers, with {exactMatches} in the correct position."
 
     except Exception as e:
         return ({"error": str(e)})
