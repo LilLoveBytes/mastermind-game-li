@@ -52,9 +52,13 @@ def start_game():
 def submit_guess():
     try:
         game_state_cookie = request.cookies.get("game_state")
+        game_state = json.loads(game_state_cookie)
 
         if not game_state_cookie:
             return start_game()
+
+        if game_state["attempts"] >= MAX_ATTEMPTS:
+            return "You've made the maximum amount of incorrect guesses. Game over!"
 
         guess = request.json.get('guess')
         guess_array = [int(num) for num in guess]
@@ -62,16 +66,14 @@ def submit_guess():
         if not guess or len(guess_array) != 4:
             raise Exception("Guess must be exactly 4 numbers long")
 
-        game_state = json.loads(game_state_cookie)
         game_state["attempts"] += 1
         game_state["guesses"].append(guess)
 
-        if game_state["attempts"] >= MAX_ATTEMPTS:
-            raise Exception("You've made 10 incorrect guess. Game over!")
-
         feedback = give_feedback(
-            guess, guess_array, game_state["secret_combo"])
+            guess, guess_array, game_state["secret_combo"], game_state["attempts"])
+        
         history = get_history(game_state)
+
         response = make_response(jsonify(
             {"message": "Guess submitted", "history": history, "feedback": feedback}), 200)
 
@@ -88,15 +90,21 @@ def get_history(game_state):
         guesses = game_state["guesses"]
         attempts_left = MAX_ATTEMPTS - attempts
 
-        return ({
-            "message": f"You've made {attempts} guess(es) so far and have {attempts_left} attempt(s) remaining.",
-            "guesses": guesses
-        })
+        if attempts < MAX_ATTEMPTS:
+          return ({
+              "message": f"You've made {attempts} guess(es) so far and have {attempts_left} attempt(s) remaining.",
+              "guesses": guesses
+          })
+        else:
+          return ({
+              "message": "You've made the maximum amount of incorrect guesses. Game over.",
+              "guesses": guesses
+          })
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
 
-def give_feedback(guess, guess_array, secret_combo):
+def give_feedback(guess, guess_array, secret_combo, attempts):
     try:
         correctNumbers = 0
         exactMatches = 0
@@ -122,6 +130,8 @@ def give_feedback(guess, guess_array, secret_combo):
 
         if exactMatches == 4:
             return "You've guessed the correct combination!"
+        elif attempts >= MAX_ATTEMPTS:
+            return f"You've made {MAX_ATTEMPTS} incorrect guesses. Game over!"
         else:
             return f"Your guess [{guess}] has {correctNumbers} correct numbers, with {exactMatches} in the correct position."
 

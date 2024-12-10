@@ -8,6 +8,7 @@ const GameComponent = () => {
 	const [guessHistory, setGuessHistory] = useState([]);
 	const [gameStarted, setGameStarted] = useState(false);
 	const [historyVisible, setHistoryVisible] = useState(false);
+  const [numberOfAttempts, setNumberOfAttempts] = useState(0);
 
 	const startGame = async () => {
 		try {
@@ -33,6 +34,7 @@ const GameComponent = () => {
 			setAttemptHistory(result.history.message);
 			console.log("attempthistory", result.history.message, "guess history:", result.history.guesses);
 			setGuessHistory(result.history.guesses);
+      setNumberOfAttempts(numberOfAttempts + 1);
 			setGuess("");
 		} catch (error) {
 			console.log("Error submitting guess", guess, "error:", error);
@@ -52,7 +54,7 @@ const GameComponent = () => {
 				Start A New Game{" "}
 			</button>
 			{/* display only after starting new game*/}
-			{gameStarted && (
+			{gameStarted &&  (
 				<form id="guess-form" onSubmit={submitGuess}>
 					<input
 						type="text"
