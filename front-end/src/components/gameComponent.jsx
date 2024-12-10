@@ -4,21 +4,27 @@ import axios from "axios";
 const GameComponent = () => {
 	const [guess, setGuess] = useState("");
 	const [feedback, setFeedback] = useState("");
-	const [atemptHistory, setAttemptHistory] = useState("");
+	const [attemptHistory, setAttemptHistory] = useState("");
 	const [guessHistory, setGuessHistory] = useState([]);
 	const [gameStarted, setGameStarted] = useState(false);
 	const [historyVisible, setHistoryVisible] = useState(false);
-  const [numberOfAttempts, setNumberOfAttempts] = useState(0);
+	const [numberOfAttempts, setNumberOfAttempts] = useState(0);
+	const MAX_ATTEMPTS = 3;
 
 	const startGame = async () => {
 		try {
 			const url = "http://localhost:3000/start";
 			await axios.post(url);
 			setGameStarted(true);
+      setNumberOfAttempts(0);
+      setFeedback("");
 			setGuess("");
-			console.log("Game started", gameStarted);
+      setAttemptHistory("");
+      setGuessHistory([]);
+      setHistoryVisible(false);
 		} catch (error) {
 			console.log("Error starting game", error);
+      
 		}
 	};
 
@@ -28,13 +34,10 @@ const GameComponent = () => {
 			const url = "http://localhost:3000/guess";
 			const response = await axios.post(url, { guess });
 			const result = response.data;
-			console.log("guess", guess);
 			setFeedback(result.feedback);
-			console.log("feedback", result.feedback);
 			setAttemptHistory(result.history.message);
-			console.log("attempthistory", result.history.message, "guess history:", result.history.guesses);
 			setGuessHistory(result.history.guesses);
-      setNumberOfAttempts(numberOfAttempts + 1);
+			setNumberOfAttempts(numberOfAttempts + 1);
 			setGuess("");
 		} catch (error) {
 			console.log("Error submitting guess", guess, "error:", error);
@@ -53,8 +56,7 @@ const GameComponent = () => {
 				{" "}
 				Start A New Game{" "}
 			</button>
-			{/* display only after starting new game*/}
-			{gameStarted &&  (
+			{gameStarted && numberOfAttempts < MAX_ATTEMPTS && (
 				<form id="guess-form" onSubmit={submitGuess}>
 					<input
 						type="text"
@@ -67,21 +69,15 @@ const GameComponent = () => {
 				</form>
 			)}
 			<p> {feedback} </p>
-			<p> {atemptHistory} </p>
-			{/* display on button click */}
-
-	{gameStarted && guessHistory.length >= 1 && (
-		<>
-			<button id="guess-history" onClick={toggleShowHistory}>
-				{historyVisible ? "Hide Guess History" : "Show Guess History"}
-			</button>
-			{historyVisible && (
-            <p>
-            {guessHistory.join(", ")}
-          </p>
-          )}
-		</>
-	)}
+			<p> {attemptHistory} </p>
+			{gameStarted && guessHistory.length >= 1 && (
+				<>
+					<button id="guess-history" onClick={toggleShowHistory}>
+						{historyVisible ? "Hide Guess History" : "Show Guess History"}
+					</button>
+					{historyVisible && <p>{guessHistory.join(", ")}</p>}
+				</>
+			)}
 		</div>
 	);
 };

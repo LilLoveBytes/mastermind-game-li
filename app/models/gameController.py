@@ -1,7 +1,7 @@
 import requests
 from flask import json, make_response, jsonify, request
 
-MAX_ATTEMPTS = 10
+MAX_ATTEMPTS = 3
 
 
 def generate_secret_combo():
@@ -14,6 +14,7 @@ def generate_secret_combo():
             "col": 1,
             "base": 10,
             "format": "plain",
+            "rnd": "new",
         }
         response = requests.get(url, params=params)
         response.raise_for_status()  # checks the response code and raises exception if error
@@ -58,7 +59,7 @@ def submit_guess():
             return start_game()
 
         if game_state["attempts"] >= MAX_ATTEMPTS:
-            return "You've made the maximum amount of incorrect guesses. Game over!"
+            return "Start a new game to try again."
 
         guess = request.json.get('guess')
         guess_array = [int(num) for num in guess]
@@ -71,7 +72,7 @@ def submit_guess():
 
         feedback = give_feedback(
             guess, guess_array, game_state["secret_combo"], game_state["attempts"])
-        
+
         history = get_history(game_state)
 
         response = make_response(jsonify(
@@ -91,15 +92,15 @@ def get_history(game_state):
         attempts_left = MAX_ATTEMPTS - attempts
 
         if attempts < MAX_ATTEMPTS:
-          return ({
-              "message": f"You've made {attempts} guess(es) so far and have {attempts_left} attempt(s) remaining.",
-              "guesses": guesses
-          })
+            return ({
+                "message": f"You've made {attempts} guess(es) so far and have {attempts_left} attempt(s) remaining.",
+                "guesses": guesses
+            })
         else:
-          return ({
-              "message": "You've made the maximum amount of incorrect guesses. Game over.",
-              "guesses": guesses
-          })
+            return ({
+                "message": f"You made {attempts} guesses. Game over.",
+                "guesses": guesses
+            })
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
