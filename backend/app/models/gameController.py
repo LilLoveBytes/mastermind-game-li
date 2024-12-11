@@ -21,13 +21,13 @@ def generate_secret_combo():
 
         # strips whitespace and splits by newline
         secret_combo = response.text.strip().split("\n")
-        # each element placed in list as integer
+        # each element placed in list as integer - list comprehension
         secret_combo = [int(num) for num in secret_combo]
 
         return secret_combo
 
     except requests.exceptions.RequestException as e:
-        raise Exception("Failed to generate secret combo")
+        raise Exception("Failed to generate secret combo", e)
 
 
 def start_game():

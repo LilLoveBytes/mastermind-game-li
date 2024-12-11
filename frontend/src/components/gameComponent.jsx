@@ -9,6 +9,7 @@ const GameComponent = () => {
 	const [gameStarted, setGameStarted] = useState(false);
 	const [historyVisible, setHistoryVisible] = useState(false);
 	const [numberOfAttempts, setNumberOfAttempts] = useState(0);
+	const [errorMessage, setErrorMessage] = useState("");
 	const MAX_ATTEMPTS = 10;
 
 	const startGame = async () => {
@@ -16,15 +17,15 @@ const GameComponent = () => {
 			const url = "http://localhost:3000/start";
 			await axios.post(url);
 			setGameStarted(true);
-      setNumberOfAttempts(0);
-      setFeedback("");
+			setNumberOfAttempts(0);
+			setFeedback("");
 			setGuess("");
-      setAttemptHistory("");
-      setGuessHistory([]);
-      setHistoryVisible(false);
+			setAttemptHistory("");
+			setGuessHistory([]);
+			setHistoryVisible(false);
 		} catch (error) {
 			console.log("Error starting game", error);
-      
+			setErrorMessage("Error starting game. Please try again.");
 		}
 	};
 
@@ -41,6 +42,7 @@ const GameComponent = () => {
 			setGuess("");
 		} catch (error) {
 			console.log("Error submitting guess", guess, "error:", error);
+			setErrorMessage("Error submitting guess. Please try again.");
 		}
 	};
 
@@ -68,6 +70,7 @@ const GameComponent = () => {
 					<button type="submit"> Submit Guess </button>
 				</form>
 			)}
+			{errorMessage && <p className="error"> {errorMessage} </p>}
 			<p> {feedback} </p>
 			<p> {attemptHistory} </p>
 			{gameStarted && guessHistory.length >= 1 && (
