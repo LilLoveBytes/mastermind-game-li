@@ -145,7 +145,7 @@ def give_feedback(guess, guess_array, secret_combo, attempts):
         elif attempts >= MAX_ATTEMPTS:
             return f"You've made {MAX_ATTEMPTS} incorrect guesses. Game over!"
         else:
-            return f"Your guess ({guess}) has {correctNumbers} correct numbers, with {exactMatches} in the correct position."
+            return f"Your most recent guess, {guess}, has {correctNumbers} correct numbers, with {exactMatches} in the correct position."
 
     except Exception as e:
         return ({"error": str(e)})
