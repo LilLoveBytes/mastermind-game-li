@@ -121,7 +121,7 @@ Mastermind is a player-versus-computer game where the player has ten tries to gu
 
 2. Option 2: Postman API Request
 
-- After starting the Flask server, you can use Postman to send POST requests to http://localhost:5000 to interact directly with the backend. Refer to the API section below.
+- After starting the Flask server, you can use Postman to send POST requests to http://localhost:5000 to interact directly with the backend. Note: using Postman will expose the secret combo. Refer to the API section below for more information.
 
 ## API Endpoints
 
