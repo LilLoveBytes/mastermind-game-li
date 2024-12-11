@@ -10,7 +10,7 @@ def create_app(testConfig=None):
 
     from app.models import gameController
 
-    from app.gameRoutes import game_bp
+    from app.routes.gameRoutes import game_bp
     app.register_blueprint(game_bp)
 
     @app.route('/', defaults={'path': ''})
@@ -25,4 +25,4 @@ def create_app(testConfig=None):
 
 if __name__ == "__main__":
     my_app = create_app()
-    my_app.run(debug=false)
+    my_app.run(debug=False)
