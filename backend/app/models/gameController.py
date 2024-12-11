@@ -1,33 +1,36 @@
-import requests
+import requests, time
 from flask import json, make_response, jsonify, request
 
 MAX_ATTEMPTS = 10
 
 
-def generate_secret_combo():
-    try:
-        url = "https://www.random.org/integers/"
-        params = {
-            "num": 4,
-            "min": 0,
-            "max": 7,
-            "col": 1,
-            "base": 10,
-            "format": "plain",
-            "rnd": "new",
-        }
-        response = requests.get(url, params=params)
-        response.raise_for_status()  # checks the response code and raises exception if error
+def generate_secret_combo(retries=3, backoff=1):
+    for retry in range(retries):
+      try:
+          url = "https://www.random.org/integers/"
+          params = {
+              "num": 4,
+              "min": 0,
+              "max": 7,
+              "col": 1,
+              "base": 10,
+              "format": "plain",
+              "rnd": "new",
+          }
+          response = requests.get(url, params=params, timeout=5)
+          response.raise_for_status()  # checks the response code and raises exception if error
 
-        # strips whitespace and splits by newline
-        secret_combo = response.text.strip().split("\n")
-        # each element placed in list as integer - list comprehension
-        secret_combo = [int(num) for num in secret_combo]
+          # strips whitespace and splits by newline
+          secret_combo = response.text.strip().split("\n")
+          # each element placed in list as integer - list comprehension
+          secret_combo = [int(num) for num in secret_combo]
 
-        return secret_combo
+          return secret_combo
 
-    except requests.exceptions.RequestException as e:
-        raise Exception("Failed to generate secret combo", e)
+      except requests.exceptions.RequestException as e:
+          if retry < retries - 1:
+                time.sleep(backoff * (2 ** retry))
+          raise Exception("Failed to generate secret combo", e)
 
 
 def start_game():
