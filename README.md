@@ -19,6 +19,8 @@ Welcome to the Mastermind Game! This project is a web-based implementation of th
   - [API Endpoints](#api-endpoints)
     - [Start a New Game](#start-a-new-game)
     - [Submit a Guess](#submit-a-guess)
+  - [Backend Tests](#backend-tests)
+    - [Running Backend Tests](#running-backend-tests)
   - [Code Structure](#code-structure)
     - [Backend](#backend)
     - [Frontend](#frontend)
@@ -171,6 +173,20 @@ Mastermind is a player-versus-computer game where the player has ten tries to gu
     "message": "Guess submitted"
   }
   ```
+
+## Backend Tests
+
+The backend tests are written using the `unittest` module in Python. These tests ensure that the game logic and API endpoints work as expected.
+
+### Running Backend Tests
+
+To run the backend test, navigate to the `backend` directory and use the following command:
+
+```sh
+PYTHONPATH=backend python -m unittest discover -s backend/app/tests
+```
+
+This command sets the `PYTHONPATH` to include the `backend` directory and runs the tests using the `unittest` discovery mechanism.
 
 ## Code Structure
 
