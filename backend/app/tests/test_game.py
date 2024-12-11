@@ -37,6 +37,20 @@ class GameTestCase(unittest.TestCase):
                               json.dumps(game_state))
         response = self.client.post('/guess', json={"guess": "1234"})
         self.assertEqual(response.status_code, 200)
+    
+    def test_submit_guess_invalid_guess_length(self):
+        secret_combo = [0, 1, 3, 5]
+        game_state = {
+            "secret_combo": secret_combo,
+            "attempts": 0,
+            "guesses": []
+        }
+        self.client.set_cookie('game_state',
+                              json.dumps(game_state))
+        response = self.client.post('/guess', json={"guess": "123"})
+        expected_response = {"error": "Guess must be exactly 4 numbers long"}
+        self.assertEqual(expected_response, response.json)
+      
 
 
 if __name__ == '__main__':
