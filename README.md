@@ -118,7 +118,7 @@ Mastermind is a player-versus-computer game where the player has ten tries to gu
 
 1. Option 1: Through the browser
 
-- After starting the Flask server and the React development server, open your browser and go to http://localhost:3000 to play the game utilizing a simple UI on the webpage.
+- After starting the Flask server and the React development server, open your browser and go to http://localhost:3000 to play the game utilizing a simple UI on the webpage. Note: the secret combo will be logged to the terminal where Flask server is running, but it will not be exposed to the user on the web browser.
 
 2. Option 2: Postman API Request
 
