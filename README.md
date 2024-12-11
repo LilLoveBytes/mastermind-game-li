@@ -37,6 +37,7 @@ Mastermind is a player-versus-computer game where the player has ten tries to gu
 - Submit guesses and receive feedback
 - Track the number of attempts and guess history
 - Display feedback and guess history to the player
+- Track the seconds it takes to win or lose
 - Ends the game after max number of attempts made
 
 ## Technologies Used
@@ -151,12 +152,13 @@ Mastermind is a player-versus-computer game where the player has ten tries to gu
 - Method: POST
 - Description: submits a guess and returns feedback
 - Request Body:
+
   ```
   {
     "guess": "1234"
   }
   ```
-  - "guess": a string representing the players guess
+
 - Response Example:
 
   ```
@@ -169,6 +171,24 @@ Mastermind is a player-versus-computer game where the player has ten tries to gu
             "1237"
         ],
         "message": "You've made 3 guess(es) so far and have 7 attempt(s) remaining."
+    },
+    "message": "Guess submitted"
+  }
+  ```
+
+- Response Example:
+
+  ```
+  {
+    "feedback": "You've guessed the correct combination in 87 seconds. You win!",
+    "history": {
+        "guesses": [
+            "7556",
+            "1234",
+            "1237",
+            "0143"
+        ],
+        "message": "You've made 4 guess(es) so far and have 6 attempt(s) remaining."
     },
     "message": "Guess submitted"
   }
@@ -220,4 +240,4 @@ The frontend of this project is built using React.js. It provides the user inter
 
 ### Implement difficulty levels
 
-I plan to enhance this game by adding difficulity levels. The current configuration will be considered the "Normal" level. In the "Hard" level, players will attempt to guess a six-digit number in five or fewer attempts. Players will be able to select their difficulty level at the start of a new game.
+I plan to enhance this game by adding difficulity levels. The current configuration will be considered the "Normal" level. In the "Hard" level, players will attempt to guess a six-digit number in five or fewer attempts and in less than 120 seconds. Players will be able to select their difficulty level at the start of a new game.
