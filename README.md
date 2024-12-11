@@ -22,6 +22,8 @@ Welcome to the Mastermind Game! This project is a web-based implementation of th
   - [Code Structure](#code-structure)
     - [Backend](#backend)
     - [Frontend](#frontend)
+  - [**Future Work**](#future-work)
+    - [Implement difficulty levels](#implement-difficulty-levels)
 
 ## Introduction
 
@@ -54,7 +56,7 @@ Mastermind is a player vs. computer game where the player tries to guess the sec
 
    ```sh
    git clone https://github.com/LilLoveBytes/mastermind-game-li.git
-   cd mastermind-game
+   cd mastermind-game-li
    ```
 
 2. Create a virtual environment
@@ -95,10 +97,11 @@ Mastermind is a player vs. computer game where the player tries to guess the sec
 ### Running the Backend Server
 
 1. Navigate to the backend directory:
-   ` cd ../backend`
-2. Start the Flask server with debug mode off:
-   ` export FLASK_DEBUG=0`
-   ` flask run`
+   `cd ../backend`
+2. Set debug mode to off:
+   `export FLASK_DEBUG=0`
+3. Start the Flask server:
+   `flask run`
 
 ### Running the Frontend
 
@@ -155,12 +158,14 @@ Mastermind is a player vs. computer game where the player tries to guess the sec
 
   ```
   {
-    "feedback": "Your guess [7556] has 0 correct numbers, with 0 in the correct position.",
+    "feedback": "Your guess [1237] has 2 correct numbers, with 0 in the correct position.",
     "history": {
         "guesses": [
-            "7556"
+            "7556",
+            "1234",
+            "1237"
         ],
-        "message": "You've made 1 guess(es) so far and have 9 attempt(s) remaining."
+        "message": "You've made 3 guess(es) so far and have 7 attempt(s) remaining."
     },
     "message": "Guess submitted"
   }
@@ -177,9 +182,9 @@ The backend of this project is build using Flask, a lightweight framework in Pyt
     - **models/**
       - `gameController.py`: Contains the game logic and functions for handling game state, guesses, and feedback.
     - **routes/**
-      - `gameRoutes.py`: Defines teh Flask routes for starting a new game and submitting a guess
-    - `__init__.py`: Initializes Flask application, set ups configurations, and registers blueprints.
-    - `requirements.txt`: Lists the dependencies required for the backend.
+      - `gameRoutes.py`: Defines the Flask routes for starting a new game and submitting a guess
+    - `__init__.py`: Initializes Flask application, sets up configurations, and registers blueprints.
+    - `requirements.txt`: Lists the Python dependencies required for the backend.
 
 ### Frontend
 
@@ -193,3 +198,9 @@ The frontend of this project is built using React.js. It provides the user inter
     - `App.js`: Sets up the main structure of the application.
     - `index.js`: Entry point for the React application
     - `package.json`: Lists the JavaScript dependencies and scripts for the frontend.
+
+## **Future Work**
+
+### Implement difficulty levels
+
+I plan to enhance this game by adding difficulity levels. The current configuration will be considered the "Normal" level. In the "Hard" level, players will attempt to guess a six-digit number in five or fewer attempts. Players will be able to select their difficulty level at the start of a new game.
