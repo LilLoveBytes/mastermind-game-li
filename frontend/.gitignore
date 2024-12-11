@@ -23,6 +23,9 @@
 
 
 __pycache__
+__pycache__/
+psycache/
+
 
 npm-debug.log*
 yarn-debug.log*
