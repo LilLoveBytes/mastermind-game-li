@@ -19,6 +19,9 @@
 .env.production.local
 
 .flaskenv
+.env
+
+
 __pycache__
 
 npm-debug.log*
