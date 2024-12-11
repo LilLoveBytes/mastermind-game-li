@@ -53,7 +53,7 @@ Mastermind is a player vs. computer game where the player tries to guess the sec
 1. Clone the repository:
 
    ```sh
-   git clone https://github.com/yourusername/mastermind-game.git
+   git clone https://github.com/LilLoveBytes/mastermind-game-li.git
    cd mastermind-game
    ```
 
