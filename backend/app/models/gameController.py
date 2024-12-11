@@ -1,4 +1,6 @@
-import requests, time
+import requests
+import time
+import math
 from flask import json, make_response, jsonify, request
 
 MAX_ATTEMPTS = 10
@@ -6,31 +8,31 @@ MAX_ATTEMPTS = 10
 
 def generate_secret_combo(retries=3, backoff=1):
     for retry in range(retries):
-      try:
-          url = "https://www.random.org/integers/"
-          params = {
-              "num": 4,
-              "min": 0,
-              "max": 7,
-              "col": 1,
-              "base": 10,
-              "format": "plain",
-              "rnd": "new",
-          }
-          response = requests.get(url, params=params, timeout=5)
-          response.raise_for_status()  # checks the response code and raises exception if error
+        try:
+            url = "https://www.random.org/integers/"
+            params = {
+                "num": 4,
+                "min": 0,
+                "max": 7,
+                "col": 1,
+                "base": 10,
+                "format": "plain",
+                "rnd": "new",
+            }
+            response = requests.get(url, params=params, timeout=5)
+            response.raise_for_status()  # checks the response code and raises exception if error
 
-          # strips whitespace and splits by newline
-          secret_combo = response.text.strip().split("\n")
-          # each element placed in list as integer - list comprehension
-          secret_combo = [int(num) for num in secret_combo]
+            # strips whitespace and splits by newline
+            secret_combo = response.text.strip().split("\n")
+            # each element placed in list as integer - list comprehension
+            secret_combo = [int(num) for num in secret_combo]
 
-          return secret_combo
+            return secret_combo
 
-      except requests.exceptions.RequestException as e:
-          if retry < retries - 1:
+        except requests.exceptions.RequestException as e:
+            if retry < retries - 1:
                 time.sleep(backoff * (2 ** retry))
-          raise Exception("Failed to generate secret combo", e)
+            raise Exception("Failed to generate secret combo", e)
 
 
 def start_game():
@@ -39,7 +41,8 @@ def start_game():
         game_state = {
             "secret_combo": secret_combo,
             "attempts": 0,
-            "guesses": []
+            "guesses": [],
+            "start_time": time.time()
         }
 
         print("secret combo:", secret_combo)
@@ -113,6 +116,11 @@ def give_feedback(guess, guess_array, secret_combo, attempts):
         correctNumbers = 0
         exactMatches = 0
         secret_combo_count = {}
+        game_state_cookie = request.cookies.get("game_state")
+        game_state = json.loads(game_state_cookie)
+        start_time = game_state["start_time"]
+        current_time = time.time()
+        elapsed_time = math.floor(current_time - start_time)
 
         # frequency of each number in the secret combo
         for num in secret_combo:
@@ -133,7 +141,7 @@ def give_feedback(guess, guess_array, secret_combo, attempts):
                 secret_combo_count[guess_array[i]] -= 1
 
         if exactMatches == 4:
-            return "You've guessed the correct combination!"
+            return f"You've guessed the correct combination in {elapsed_time} seconds. You win!"
         elif attempts >= MAX_ATTEMPTS:
             return f"You've made {MAX_ATTEMPTS} incorrect guesses. Game over!"
         else:
