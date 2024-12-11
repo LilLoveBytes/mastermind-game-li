@@ -114,7 +114,7 @@ Mastermind is a player vs. computer game where the player tries to guess the sec
 
 1. Option 1: Through the browser
 
-- After starting the Flask and React development server, open your browser and go to http://localhost:3000 to play the game utilizing a simple UI on the webpage.
+- After starting the Flask server and the React development server, open your browser and go to http://localhost:3000 to play the game utilizing a simple UI on the webpage.
 
 2. Option 2: Postman API Request
 
