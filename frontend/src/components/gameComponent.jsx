@@ -25,7 +25,9 @@ const GameComponent = () => {
 			setHistoryVisible(false);
 		} catch (error) {
 			console.log("Error starting game", error);
-			setErrorMessage("Error starting game. Please try again.");
+			setErrorMessage(
+				"Error starting game. Please refresh the browser and try again."
+			);
 		}
 	};
 
@@ -42,7 +44,9 @@ const GameComponent = () => {
 			setGuess("");
 		} catch (error) {
 			console.log("Error submitting guess", guess, "error:", error);
-			setErrorMessage("Error submitting guess. Please try again.");
+			setErrorMessage(
+				"Error submitting guess. Please refresh the browser and try again."
+			);
 		}
 	};
 
