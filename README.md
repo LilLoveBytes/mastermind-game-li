@@ -22,12 +22,12 @@ Welcome to the Mastermind Game! This project is a web-based implementation of th
   - [Code Structure](#code-structure)
     - [Backend](#backend)
     - [Frontend](#frontend)
-  - [**Future Work**](#future-work)
+  - [Future Work](#future-work)
     - [Implement difficulty levels](#implement-difficulty-levels)
 
 ## Introduction
 
-Mastermind is a player vs. computer game where the player tries to guess the secret code created by the computer within a certain number of attempts. This project provides a web interface for playing the game, with a backend server to handle game logic.
+Mastermind is a player-versus-computer game where the player has ten tries to guess the four-digit secret code created by the computer. This project provides a web interface for playing the game, with a backend server to handle game logic.
 
 ## Features
 
@@ -35,6 +35,7 @@ Mastermind is a player vs. computer game where the player tries to guess the sec
 - Submit guesses and receive feedback
 - Track the number of attempts and guess history
 - Display feedback and guess history to the player
+- Ends the game after max number of attempts made
 
 ## Technologies Used
 
@@ -199,7 +200,7 @@ The frontend of this project is built using React.js. It provides the user inter
     - `index.js`: Entry point for the React application
     - `package.json`: Lists the JavaScript dependencies and scripts for the frontend.
 
-## **Future Work**
+## Future Work
 
 ### Implement difficulty levels
 
