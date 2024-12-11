@@ -141,9 +141,9 @@ def give_feedback(guess, guess_array, secret_combo, attempts):
                 secret_combo_count[guess_array[i]] -= 1
 
         if exactMatches == 4:
-            return f"You've guessed the correct combination in {elapsed_time} seconds. You win!"
+            return f"You've guessed the correct combination: {secret_combo} in {elapsed_time} seconds. You win!"
         elif attempts >= MAX_ATTEMPTS:
-            return f"You've made {MAX_ATTEMPTS} incorrect guesses. Game over!"
+            return f"You've made {MAX_ATTEMPTS} incorrect guesses. Game over!\nThe correct combination was {secret_combo}."
         else:
             return f"Your most recent guess, {guess}, has {correctNumbers} correct numbers, with {exactMatches} in the correct position."
 
