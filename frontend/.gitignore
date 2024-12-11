@@ -23,8 +23,9 @@
 
 
 __pycache__
+/__pycache__
 __pycache__/
-psycache/
+pycache/
 
 
 npm-debug.log*
