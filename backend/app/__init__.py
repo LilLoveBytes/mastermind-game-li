@@ -3,8 +3,8 @@ import os
 
 
 def create_app(testConfig=None):
-    app = Flask(__name__, static_folder="../front-end/build",
-                template_folder="../front-end/build")
+    app = Flask(__name__, static_folder="../frontend/build",
+                template_folder="../frontend/build")
 
     app.config['DEBUG'] = os.getenv('FLASK_ENV') == 'development'
 
@@ -25,4 +25,4 @@ def create_app(testConfig=None):
 
 if __name__ == "__main__":
     my_app = create_app()
-    my_app.run(debug=True)
+    my_app.run(debug=false)

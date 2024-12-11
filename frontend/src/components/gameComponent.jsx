@@ -9,7 +9,7 @@ const GameComponent = () => {
 	const [gameStarted, setGameStarted] = useState(false);
 	const [historyVisible, setHistoryVisible] = useState(false);
 	const [numberOfAttempts, setNumberOfAttempts] = useState(0);
-	const MAX_ATTEMPTS = 3;
+	const MAX_ATTEMPTS = 10;
 
 	const startGame = async () => {
 		try {

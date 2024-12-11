@@ -1,7 +1,7 @@
 import requests
 from flask import json, make_response, jsonify, request
 
-MAX_ATTEMPTS = 3
+MAX_ATTEMPTS = 10
 
 
 def generate_secret_combo():
