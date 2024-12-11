@@ -8,6 +8,9 @@ def create_app(testConfig=None):
 
     app.config['DEBUG'] = os.getenv('FLASK_ENV') == 'development'
 
+    if testConfig:
+        app.config.update(testConfig)
+
     from app.models import gameController
 
     from app.routes.gameRoutes import game_bp
