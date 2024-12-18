@@ -428,5 +428,7 @@ sketch
 .history
 .ionide
 
-# End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,python,flask,react,node
 .vscode/
+.DS_Store
+
+# End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,python,flask,react,node
