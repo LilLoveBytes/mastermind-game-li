@@ -1,7 +1,7 @@
 import requests
 import time
 import math
-from flask import json, make_response, jsonify, request
+from flask import json, make_response, jsonify, request, session
 
 MAX_ATTEMPTS = 10
 
@@ -11,20 +11,20 @@ def generate_secret_combo(retries=3, backoff=1):
         try:
             url = "https://www.random.org/integers/"
             params = {
-                "num": 4,
+                "num": 4, 
                 "min": 0,
                 "max": 7,
                 "col": 1,
                 "base": 10,
                 "format": "plain",
-                "rnd": "new",
+                "rnd": "new",              
             }
             response = requests.get(url, params=params, timeout=5)
             response.raise_for_status()  # checks the response code and raises exception if error
 
             # strips whitespace and splits by newline
             secret_combo = response.text.strip().split("\n")
-            # each element placed in list as integer - list comprehension
+            # each element placed in list as integer using list comprehension
             secret_combo = [int(num) for num in secret_combo]
 
             return secret_combo
@@ -49,7 +49,8 @@ def start_game():
 
         response = make_response(
             jsonify({"message": "New game started", "secret_combo": secret_combo}), 200)
-        response.set_cookie("game_state", json.dumps(game_state))
+        
+        session['game_state'] = game_state
 
         return response
     except Exception as e:
@@ -58,16 +59,17 @@ def start_game():
 
 def submit_guess():
     try:
-        game_state_cookie = request.cookies.get("game_state")
-        game_state = json.loads(game_state_cookie)
+        # game_state_cookie = request.cookies.get("game_state")
+        # game_state = json.loads(game_state_cookie)
+        game_state = session.get("game_state")
 
-        if not game_state_cookie:
+        if not game_state:
             return start_game()
 
         if game_state["attempts"] >= MAX_ATTEMPTS:
             return "Start a new game to try again."
 
-        guess = request.json.get('guess')
+        guess = request.json.get("guess")
         guess_array = [int(num) for num in guess]
 
         if not guess or len(guess_array) != 4:
@@ -84,7 +86,8 @@ def submit_guess():
         response = make_response(jsonify(
             {"message": "Guess submitted", "history": history, "feedback": feedback}), 200)
 
-        response.set_cookie("game_state", json.dumps(game_state))
+        # response.set_cookie("game_state", json.dumps(game_state))
+        session["game_state"] = game_state
 
         return response
     except Exception as e:
@@ -116,12 +119,15 @@ def give_feedback(guess, guess_array, secret_combo, attempts):
         correctNumbers = 0
         exactMatches = 0
         secret_combo_count = {}
-        game_state_cookie = request.cookies.get("game_state")
-        game_state = json.loads(game_state_cookie)
+        # game_state_cookie = request.cookies.get("game_state")
+        # game_state = json.loads(game_state_cookie)
+        game_state = session.get("game_state")
         start_time = game_state["start_time"]
         current_time = time.time()
         elapsed_time = math.floor(current_time - start_time)
 
+    #    secret_combo =  [1, 2, 4, 2]
+    # secret_combo_count = {1: 1, 2: 2, 4: 1}
         # frequency of each number in the secret combo
         for num in secret_combo:
             if num in secret_combo_count:
