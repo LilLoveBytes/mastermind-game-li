@@ -6,7 +6,8 @@ from flask import json, make_response, jsonify, request, session
 MAX_ATTEMPTS = 10
 
 
-def generate_secret_combo(retries=3, backoff=1):
+def generate_secret_combo(retries=3, backoff=1): 
+    # retries so that if the request fails, it will try again
     for retry in range(retries):
         try:
             url = "https://www.random.org/integers/"
