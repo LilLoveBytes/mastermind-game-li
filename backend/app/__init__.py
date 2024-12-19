@@ -2,9 +2,14 @@ from flask import Flask
 import os
 
 
+
 def create_app(testConfig=None):
     app = Flask(__name__, static_folder="../frontend/build",
                 template_folder="../frontend/build")
+    # explain why we need those folders
+    
+    # session secret key
+    app.secret_key = "super_secret_key"
 
     app.config['DEBUG'] = os.getenv('FLASK_ENV') == 'development'
 
@@ -15,9 +20,10 @@ def create_app(testConfig=None):
 
     from app.routes.gameRoutes import game_bp
     app.register_blueprint(game_bp)
+    # what are blueprints?
 
     @app.route('/', defaults={'path': ''})
-    @app.route('/<path:path>')
+    @app.route('/<path:path>') # what is this?
     def serve_react(path):
         if path and os.path.exists(app.static_folder + '/' + path):
             return app.send_static_file(path)

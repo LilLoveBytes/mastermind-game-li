@@ -432,5 +432,3 @@ sketch
 .DS_Store
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,python,flask,react,node
-venv/lib/python3.11/site-packages/_distutils_hack/__pycache__/__init__.cpython-311.pyc
-venv/lib/python3.11/site-packages/_distutils_hack/__pycache__/__init__.cpython-311.pyc

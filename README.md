@@ -38,7 +38,7 @@ Mastermind is a player-versus-computer game where the player has ten tries to gu
 - Track the number of attempts and guess history
 - Display feedback and guess history to the player
 - Track the seconds it takes to win or lose
-- Ends the game after max number of attempts made
+- Game ends after max number of attempts made or a win
 
 ## Technologies Used
 
@@ -240,4 +240,4 @@ The frontend of this project is built using React.js. It provides the user inter
 
 ### Implement difficulty levels
 
-I plan to enhance this game by adding difficulity levels. The current configuration will be considered the "Normal" level. In the "Hard" level, players will attempt to guess a six-digit number in five or fewer attempts and in less than 120 seconds. Players will be able to select their difficulty level at the start of a new game.
+I plan to enhance this game by adding difficulity levels. The current configuration will be considered the "Normal" level. In the "Hard" level, players will attempt to guess a six-digit number in five or fewer attempts and in less than 180 seconds. Players will be able to select their difficulty level at the start of a new game and see the timer count down from 3 minutes.
