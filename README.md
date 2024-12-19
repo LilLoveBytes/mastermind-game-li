@@ -38,7 +38,7 @@ Mastermind is a player-versus-computer game where the player has ten tries to gu
 - Track the number of attempts and guess history
 - Display feedback and guess history to the player
 - Track the seconds it takes to win or lose
-- Ends the game after max number of attempts made
+- Game ends after max number of attempts made or a win
 
 ## Technologies Used
 
